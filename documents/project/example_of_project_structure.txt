@@ -1,0 +1,52 @@
+my_project/
+|__ main.py                     # Entry point of the application 
+├── app/                        # Main application code
+│   ├── __init__.py
+│   ├── models/                 # ORM models or database schema
+│   │   ├── __init__.py
+│   │   └── user.py
+│   ├── services/               # Business logic
+│   │   ├── __init__.py
+│   │   └── order_service.py
+│   ├── api/                    # REST/GraphQL endpoints
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   └── utils/                  # App-specific helpers
+│       ├── __init__.py
+│       └── db_helpers.py       # helpers that directly use app models
+│
+├── utils/                      # Project-wide generic helpers
+│   ├── __init__.py
+│   ├── file_utils.py
+│   ├── string_utils.py
+│   └── logging_utils.py
+│
+├── config/                     # Configuration files
+│   ├── __init__.py             # optional
+│   ├── default.yaml             # default settings
+│   ├── dev.env                  # development environment variables
+│   ├── staging.env              # staging environment
+│   ├── prod.env                 # production environment
+│   └── logging.yaml             # logging configuration
+│
+├── sql/                        # SQL scripts
+│   ├── migrations/             # schema migrations
+│   │   ├── 001_create_users.sql
+│   │   └── 002_add_index_orders.sql
+│   ├── seeds/                  # initial/test data
+│   │   └── initial_users.sql
+│   └── queries/                # large reusable SQL queries
+│       └── active_users.sql
+│
+├── tests/                      # Unit and integration tests
+│   ├── __init__.py
+│   ├── test_models.py
+│   ├── test_services.py
+│   └── utils/                  # tests for utility functions
+│       ├── test_file_utils.py
+│       └── test_db_helpers.py
+│
+├── requirements.txt
+├── setup.py                     # if packaging the project
+├── README.md
+└── .gitignore                   # ignore .env files, pyc, __pycache__, etc.
