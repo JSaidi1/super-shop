@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS super_shop_schema.products (
 	category_id INT NOT NULL,
 	CONSTRAINT fk_category_id FOREIGN KEY(category_id)
 		REFERENCES super_shop_schema.categories(category_id)
+		ON DELETE CASCADE
 );
 
 -- --------------------------------------------------------------------------------
