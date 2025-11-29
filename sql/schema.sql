@@ -86,9 +86,11 @@ CREATE TABLE IF NOT EXISTS super_shop_schema.orders (
 	order_status_id INT NOT NULL,
 	CONSTRAINT uq_order UNIQUE (placed_in, customer_id), --Prevents the same customer from placing multiple orders at the exact same timestamp
 	CONSTRAINT fk_customer_id FOREIGN KEY(customer_id)
-		REFERENCES super_shop_schema.customers(customer_id),
+		REFERENCES super_shop_schema.customers(customer_id)
+		ON DELETE CASCADE,
 	CONSTRAINT fk_order_status_id FOREIGN KEY(order_status_id)
 		REFERENCES super_shop_schema.order_status(order_status_id)
+		ON DELETE CASCADE
 );
 
 -- ----------------------------------------------------------
@@ -107,7 +109,7 @@ CREATE TABLE IF NOT EXISTS super_shop_schema.order_items (
 	unit_price DECIMAL(10, 2) CHECK (unit_price > 0),
 	CONSTRAINT pk_order_items_id PRIMARY KEY(order_id, product_id),
     CONSTRAINT fk_order_id FOREIGN KEY(order_id)
-		REFERENCES super_shop_schema.orders(order_id),
+		REFERENCES super_shop_schema.orders(order_id)
 		ON DELETE CASCADE,
 	CONSTRAINT fk_product_id FOREIGN KEY(product_id)
 		REFERENCES super_shop_schema.products(product_id)
