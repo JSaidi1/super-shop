@@ -108,7 +108,9 @@ CREATE TABLE IF NOT EXISTS super_shop_schema.order_items (
 	CONSTRAINT pk_order_items_id PRIMARY KEY(order_id, product_id),
     CONSTRAINT fk_order_id FOREIGN KEY(order_id)
 		REFERENCES super_shop_schema.orders(order_id),
+		ON DELETE CASCADE,
 	CONSTRAINT fk_product_id FOREIGN KEY(product_id)
 		REFERENCES super_shop_schema.products(product_id)
+		ON DELETE CASCADE
 );
 
