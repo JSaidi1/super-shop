@@ -1,0 +1,9 @@
+Entity (dataclass)            ← plain Python data
+        │
+EntityRepository (abstract)   ← defines interface / contract
+        │
+<SGBD>EntityRepository      ← concrete implementation using psycopg2 + PostgreSQL
+        │
+EntityService                 ← business logic layer
+        │
+main()                          ← application entry point / usage 
