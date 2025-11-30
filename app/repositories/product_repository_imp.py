@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Literal, List, Tuple
 
 from config.setting import settings
 import psycopg
@@ -157,8 +157,182 @@ class PostgresProductRepository(ProductRepository):
     # ======================================================================================
     #                       ---------- Custom queries ----------
     # ======================================================================================
+    def list_products_names_and_prices_sorted_by_price(self, order: Literal['ascending', 'descending']) -> list[tuple[str, float]] | None:
+        conn = self._get_connection()
+        try:
+            if order != "ascending" and order != "descending":
+                raise Exception("Order must be 'ascending' or 'descending'")
+            with conn:
+                with conn.cursor() as cur:
+                    if order == "ascending":
+                        cur.execute(
+                            """
+                            SELECT name, price 
+                            FROM super_shop_schema.products
+                            ORDER BY price ASC
+                            """
+                        )
+                    else:
+                        cur.execute(
+                            """
+                            SELECT name, price 
+                            FROM super_shop_schema.products
+                            ORDER BY price DESC
+                            """
+                        )
+                    rows = cur.fetchall()
+                    if rows:
+                        return [(r[0], r[1]) for r in rows]
+                    return None
+        except Exception as e:
+            print(f"[KO]: Error when trying list products names ans prices by price: {e}")
+            return None
+        finally:
+            conn.close()
 
+    def list_products_with_price_above(self, min_price: float) -> List[Product] | None:
+        conn = self._get_connection()
+        try:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT * 
+                        FROM super_shop_schema.products
+                        WHERE price > %s
+                        """,
+                        (min_price,)
+                    )
+                    rows = cur.fetchall()
+                    if rows:
+                        return [Product(product_id=r[0], name=r[1], price=r[2], available_stock=r[3], category_id=r[4]) for r in rows]
+                    return None
+        except Exception as e:
+            print(f"[KO]: Error when trying to list products which price is above {min_price}: {e}")
+            return None
+        finally:
+            conn.close()
 
+    def list_products_by_category(self, category_name: str, ignore_case: bool=False) -> List[Product] | None:
+        conn = self._get_connection()
+        try:
+            with conn:
+                with conn.cursor() as cur:
+                    if ignore_case:
+                        cur.execute(
+                            """
+                            SELECT p.*
+                            FROM super_shop_schema.products p
+                            LEFT JOIN super_shop_schema.categories c
+                                ON p.category_id = c.category_id
+                            WHERE c.name ILIKE %s
+                            """,
+                            (category_name,)
+                        )
+                    else:
+                        cur.execute(
+                            """
+                            SELECT p.*
+                            FROM super_shop_schema.products p
+                            LEFT JOIN super_shop_schema.categories c
+                                ON p.category_id = c.category_id
+                            WHERE c.name = %s
+                            """,
+                            (category_name,)
+                        )
+                    rows = cur.fetchall()
+                    if rows:
+                        return [Product(product_id=r[0], name=r[1], price=r[2], available_stock=r[3], category_id=r[4])
+                                for r in rows]
+                    return None
+        except Exception as e:
+            print(f"[KO]: Error when trying to list products which category is '{category_name}': {e}")
+            return None
+        finally:
+            conn.close()
+
+    def list_products_never_sold(self) -> List[Product] | None:
+        conn = self._get_connection()
+        try:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT p.* 
+                        FROM super_shop_schema.products p
+                        LEFT JOIN super_shop_schema.order_items oi
+                            ON p.product_id = oi.product_id
+                        WHERE oi.product_id IS NULL;
+                        """
+                    )
+                    rows = cur.fetchall()
+                    if rows:
+                        return [Product(product_id=r[0], name=r[1], price=r[2], available_stock=r[3], category_id=r[4])
+                                for r in rows]
+                    return None
+        except Exception as e:
+            print(f"[KO]: Error when trying to list products which never sold: {e}")
+            return None
+        finally:
+            conn.close()
+
+    def list_products_top_best_selling(self, top_nbr: int) -> List[Product] | None:
+        conn = self._get_connection()
+        try:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT p.*
+                        FROM super_shop_schema.products p
+                        JOIN super_shop_schema.order_items oi
+                            ON p.product_id = oi.product_id
+                        GROUP BY p.product_id
+                        ORDER BY SUM(quantity) DESC
+                        LIMIT %s
+                        """,
+                        (top_nbr,)
+                    )
+                    rows = cur.fetchall()
+                    if rows:
+                        return [Product(product_id=r[0], name=r[1], price=r[2], available_stock=r[3], category_id=r[4])
+                                for r in rows]
+                    return None
+        except Exception as e:
+            print(f"[KO]: Error when trying to list products which are on top best-selling: {e}")
+            return None
+        finally:
+            conn.close()
+
+    def list_products_with_revenue_below(self, max_revenue: float) -> List[Tuple[int, str, float]] | None:
+        conn = self._get_connection()
+        try:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT
+                            p.product_id,
+                            p.name,
+                            COALESCE(SUM(oi.quantity * oi.unit_price), 0) AS total_revenue
+                        FROM super_shop_schema.products p
+                        LEFT JOIN super_shop_schema.order_items oi ON oi.product_id = p.product_id
+                        LEFT JOIN super_shop_schema.orders o       ON o.order_id = oi.order_id -- AND o.status <> 'CANCELLED'
+                        GROUP BY p.product_id, p.name
+                        HAVING COALESCE(SUM(oi.quantity * oi.unit_price), 0) < %s
+                        ORDER BY total_revenue ASC;
+                        """,
+                        (max_revenue,)
+                    )
+                    rows = cur.fetchall()
+                    if rows:
+                        return [(r[0], r[1], r[2]) for r in rows]
+                    return None
+        except Exception as e:
+            print(f"[KO]: Error when trying to list products which generate less than 'max revenue' in total revenue: {e}")
+            return None
+        finally:
+            conn.close()
 
 
 
@@ -197,6 +371,29 @@ if __name__ == "__main__":
     print(repo.delete(3))
     print(repo.delete(47))
 
+    # --- List products names and prices sorted by price:
+    print("\n# --- List products names and prices sorted by price:")
+    print(repo.list_products_names_and_prices_sorted_by_price("ascending"))
+    print(repo.list_products_names_and_prices_sorted_by_price("descending"))
 
+    # --- List products with price above a certain price:
+    print("\n# --- List products with price above a certain price:")
+    print(repo.list_products_with_price_above(50))
+
+    # --- List products by category:
+    print("\n# --- List products by category:")
+    print(repo.list_products_by_category('Électronique', True))
+
+    # --- List products never sold:
+    print("\n# --- List products never sold:")
+    print(repo.list_products_never_sold())
+
+    # --- List products top best-selling:
+    print("\n# --- List products top best-selling:")
+    print(repo.list_products_top_best_selling(3))
+
+    # --- List products with revenue below:
+    print("\n# --- List products with revenue below:")
+    print(repo.list_products_with_revenue_below(10))
 
 
