@@ -5,7 +5,9 @@ from app.models.customer import Customer
 
 class CustomerRepository(ABC):
 
-    # -------- C.R.U.D operations --------    
+    # ======================================================================================
+    #                         -------- C.R.U.D operations --------
+    # ======================================================================================
     @abstractmethod
     def create(self, customer: Customer) -> Customer | None:
         """
@@ -59,7 +61,9 @@ class CustomerRepository(ABC):
         """
         pass
 
-    # ---------- Custom queries ----------
+    # ======================================================================================
+    #                       ---------- Custom queries ----------
+    # ======================================================================================
     @abstractmethod
     def list_customers_by_creation_date(self, order: Literal['ascending', 'descending']) -> List[Customer] | None:
         """

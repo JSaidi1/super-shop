@@ -31,6 +31,9 @@ class PostgresCategoryRepository(CategoryRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                         -------- C.R.U.D operations --------
+    # ======================================================================================
     def create(self, category: Category) -> Category | None:
         conn = self._get_connection()
         try:
@@ -141,6 +144,9 @@ class PostgresCategoryRepository(CategoryRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                       ---------- Custom queries ----------
+    # ======================================================================================
 
 
 if __name__ == "__main__":

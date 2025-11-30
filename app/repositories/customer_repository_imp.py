@@ -35,6 +35,9 @@ class PostgresCustomerRepository(CustomerRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                         -------- C.R.U.D operations --------
+    # ======================================================================================
     def create(self, customer: Customer) -> Customer | None:
         conn = self._get_connection()
         try:
@@ -142,6 +145,9 @@ class PostgresCustomerRepository(CustomerRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                       ---------- Custom queries ----------
+    # ======================================================================================
     def list_customers_by_creation_date(self, order: Literal['ascending', 'descending']) -> List[Customer] | None:
         conn = self._get_connection()
         try:

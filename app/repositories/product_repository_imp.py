@@ -37,6 +37,9 @@ class PostgresProductRepository(ProductRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                         -------- C.R.U.D operations --------
+    # ======================================================================================
     def create(self, product: Product) -> Product | None:
         conn = self._get_connection()
         try:
@@ -150,6 +153,12 @@ class PostgresProductRepository(ProductRepository):
             return None
         finally:
             conn.close()
+
+    # ======================================================================================
+    #                       ---------- Custom queries ----------
+    # ======================================================================================
+
+
 
 
 

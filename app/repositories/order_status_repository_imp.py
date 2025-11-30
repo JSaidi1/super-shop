@@ -32,6 +32,9 @@ class PostgresOrderStatusRepository(OrderStatusRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                         -------- C.R.U.D operations --------
+    # ======================================================================================
     def create(self, order_status: OrderStatus) -> OrderStatus | None:
         conn = self._get_connection()
         try:
@@ -140,6 +143,11 @@ class PostgresOrderStatusRepository(OrderStatusRepository):
             return None
         finally:
             conn.close()
+
+    # ======================================================================================
+    #                       ---------- Custom queries ----------
+    # ======================================================================================
+
 
 
 

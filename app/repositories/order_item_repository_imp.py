@@ -41,6 +41,9 @@ class PostgresOrderItemRepository(OrderItemRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                         -------- C.R.U.D operations --------
+    # ======================================================================================
     def create(self, order_item: OrderItem) -> OrderItem | None:
         conn = self._get_connection()
         try:
@@ -163,6 +166,11 @@ class PostgresOrderItemRepository(OrderItemRepository):
             return None
         finally:
             conn.close()
+
+    # ======================================================================================
+    #                       ---------- Custom queries ----------
+    # ======================================================================================
+
 
 
 

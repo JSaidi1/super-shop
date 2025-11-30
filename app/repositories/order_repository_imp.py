@@ -41,6 +41,9 @@ class PostgresOrderRepository(OrderRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                         -------- C.R.U.D operations --------
+    # ======================================================================================
     def create(self, order: Order) -> Order | None:
         conn = self._get_connection()
         try:
@@ -153,6 +156,9 @@ class PostgresOrderRepository(OrderRepository):
         finally:
             conn.close()
 
+    # ======================================================================================
+    #                       ---------- Custom queries ----------
+    # ======================================================================================
 
 
 if __name__ == "__main__":

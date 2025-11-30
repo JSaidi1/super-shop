@@ -5,7 +5,9 @@ from app.models.order_status import OrderStatus
 
 class OrderStatusRepository(ABC):
 
-    # -------- C.R.U.D operations --------    
+    # ======================================================================================
+    #                         -------- C.R.U.D operations --------
+    # ======================================================================================
     @abstractmethod
     def create(self, order_status: OrderStatus) -> OrderStatus | None:
         """
@@ -59,4 +61,7 @@ class OrderStatusRepository(ABC):
         """
         pass
 
-    # ---------- Custom queries ----------
+    # ======================================================================================
+    #                       ---------- Custom queries ----------
+    # ======================================================================================
+
