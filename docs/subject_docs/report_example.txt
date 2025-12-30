@@ -1,0 +1,38 @@
+SUPERSHOP REPORT – SALES ANALYSIS
+Generated on: 2025-11-25 10:46:43 
+============================================================
+1) Total Revenue
+------------------------------------------------------------
+Total revenue (excluding canceled orders) is €292.50. 
+
+2) Average Order Value
+------------------------------------------------------------
+The average order value (excluding canceled orders) is €48.75 per order. 
+
+3) Best-Selling Item
+------------------------------------------------------------
+The item that generated the highest sales (in total quantity) is “FreshEnergy Shower Gel” with 5 units sold. 
+
+4) Top 3 Highest-Spending Customers
+------------------------------------------------------------
+The three customers who spent the most (excluding canceled orders) are:
+
+Alice Martin — €105.97
+
+Katia Garnier — €59.88
+
+Chloe Bernard — €44.96 
+
+5) Revenue by Category
+------------------------------------------------------------
+Breakdown of revenue (excluding canceled orders) by product category:
+
+Electronics: €129.89
+
+Beauty & Health: €56.75
+
+Games & Toys: €55.88
+
+Home & Kitchen: €29.99
+
+Sports & Leisure: €19.99
