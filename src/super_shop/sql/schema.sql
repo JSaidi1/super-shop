@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS super_shop_schema.categories (
 CREATE TABLE IF NOT EXISTS super_shop_schema.products (
 	product_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	name VARCHAR(50) NOT NULL UNIQUE,
-	price NUMERIC(10, 2) CHECK (price > 0),
-	available_stock INT CHECK (available_stock >= 0),
+	price NUMERIC(10, 2) NOT NULL CHECK (price > 0),
+	available_stock INT NOT NULL CHECK (available_stock >= 0),
 	category_id INT NOT NULL,
 	CONSTRAINT fk_category_id FOREIGN KEY(category_id)
 		REFERENCES super_shop_schema.categories(category_id)
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS super_shop_schema.orders (
 CREATE TABLE IF NOT EXISTS super_shop_schema.order_items (
 	order_id INT NOT NULL,
 	product_id INT NOT NULL,
-	quantity INT CHECK (quantity > 0),
+	quantity INT NOT NULL CHECK (quantity > 0),
 	unit_price DECIMAL(10, 2) CHECK (unit_price > 0),
 	CONSTRAINT pk_order_items_id PRIMARY KEY(order_id, product_id),
     CONSTRAINT fk_order_id FOREIGN KEY(order_id)
