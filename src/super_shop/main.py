@@ -8,7 +8,7 @@ def menu():
     2. List all products (product name and price) ordered by descending price.
     3. List all orders placed between two dates (for example, between March 1st and March 15th, 2024).
     4. List all products whose price is strictly greater than €50.
-    5. List all products belonging to a given category (for example, “Electronics”).
+    5. List all products belonging to a given category (for example, “Electronic”).
     --------------------------------
     --------- Simple Joins ---------
     --------------------------------

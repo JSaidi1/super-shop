@@ -10,11 +10,11 @@
 -- ----------------------------------------------------------
 INSERT INTO super_shop_schema.categories (name, description) 
 VALUES
-    ('Électronique',       'Produits high-tech et accessoires'),
-    ('Maison & Cuisine',   'Électroménager et ustensiles'),
-    ('Sport & Loisirs',    'Articles de sport et plein air'),
-    ('Beauté & Santé',     'Produits de beauté, hygiène, bien-être'),
-    ('Jeux & Jouets',      'Jouets pour enfants et adultes');
+    ('Electronic',       'High-tech products and accessories'),
+    ('Home & Kitchen',   'Household appliances and utensils'),
+    ('Sports & Leisure', 'Sporting and outdoor articles'),
+    ('Beauty & Health',  'Beauty products, hygiene, well-being'),
+    ('Games & Toys',     'Toys for children and adults');
 
 -- ----------------------------------------------------------
 -- DATA: PRODUCTS
@@ -22,16 +22,16 @@ VALUES
 -- ----------------------------------------------------------
 INSERT INTO super_shop_schema.products(name, price, available_stock, category_id) 
 VALUES
-    ('Casque Bluetooth X1000',        79.99,  50,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Électronique')),
-    ('Souris Gamer Pro RGB',          49.90, 120,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Électronique')),
-    ('Bouilloire Inox 1.7L',          29.99,  80,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Maison & Cuisine')),
-    ('Aspirateur Cyclonix 3000',     129.00,  40,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Maison & Cuisine')),
-    ('Tapis de Yoga Comfort+',        19.99, 150,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Sport & Loisirs')),
-    ('Haltères 5kg (paire)',          24.99,  70,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Sport & Loisirs')),
-    ('Crème hydratante BioSkin',      15.90, 200,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Beauté & Santé')),
-    ('Gel douche FreshEnergy',         4.99, 300,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Beauté & Santé')),
-    ('Puzzle 1000 pièces "Montagne"', 12.99,  95,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Jeux & Jouets')),
-    ('Jeu de société "Galaxy Quest"', 29.90,  60,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Jeux & Jouets'));
+    ('X1000 Bluetooth Headset',      79.99,  50,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Electronic')),
+    ('Pro RGB Gaming Mouse',         49.90, 120,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Electronic')),
+    ('Stainless steel kettle 1.7L',  29.99,  80,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Home & Kitchen')),
+    ('Cyclonix 3000 vacuum cleaner', 129.00,  40, (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Home & Kitchen')),
+    ('Comfort+ Yoga Mat',            19.99, 150,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Sports & Leisure')),
+    ('Dumbbells 5kg (pair)',         24.99,  70,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Sports & Leisure')),
+    ('BioSkin Moisturizing Cream',   15.90, 200,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Beauty & Health')),
+    ('FreshEnergy shower gel',       4.99, 300,   (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Beauty & Health')),
+    ('1000 piece puzzle "Mountain"', 12.99,  95,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Games & Toys')),
+    ('Board game "Galaxy Quest"',    29.90,  60,  (SELECT category_id FROM super_shop_schema.categories WHERE name = 'Games & Toys'));
 
 -- ----------------------------------------------------------
 -- DATA: CUSTOMERS
@@ -89,16 +89,16 @@ VALUES
 -- ----------------------------------------------------------
 INSERT INTO super_shop_schema.order_items(order_id, product_id, quantity, unit_price) 
 VALUES
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-01 10:20:10.000009' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'alice.martin@mail.com')),    (SELECT product_id FROM super_shop_schema.products WHERE name = 'Casque Bluetooth X1000'),        1,  79.99),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-01 10:20:10.000009' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'alice.martin@mail.com')),    (SELECT product_id FROM super_shop_schema.products WHERE name = 'Puzzle 1000 pièces "Montagne"'), 2,  12.99),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-04 09:12:00.000200' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'bob.dupont@mail.com')),      (SELECT product_id FROM super_shop_schema.products WHERE name = 'Tapis de Yoga Comfort+'),        1,  19.99),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-08 15:02:20.020000' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'chloe.bernard@mail.com')),   (SELECT product_id FROM super_shop_schema.products WHERE name = 'Bouilloire Inox 1.7L'),          1,  29.99),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-08 15:02:20.020000' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'chloe.bernard@mail.com')),   (SELECT product_id FROM super_shop_schema.products WHERE name = 'Gel douche FreshEnergy'),        3,   4.99),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-09 11:45:00.000003' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'david.robert@mail.com')),    (SELECT product_id FROM super_shop_schema.products WHERE name = 'Haltères 5kg (paire)'),          1,  24.99),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-10 08:10:00.000000' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'emma.leroy@mail.com')),      (SELECT product_id FROM super_shop_schema.products WHERE name = 'Crème hydratante BioSkin'),      2,  15.90),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-18 14:22:00.000000' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'julien.fontaine@mail.com')), (SELECT product_id FROM super_shop_schema.products WHERE name = 'Jeu de société "Galaxy Quest"'), 1,  29.90),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-20 18:00:02.123001' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'katia.garnier@mail.com')),   (SELECT product_id FROM super_shop_schema.products WHERE name = 'Souris Gamer Pro RGB'),          1,  49.90),
-    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-20 18:00:02.123001' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'katia.garnier@mail.com')),   (SELECT product_id FROM super_shop_schema.products WHERE name = 'Gel douche FreshEnergy'),        2,   4.99);
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-01 10:20:10.000009' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'alice.martin@mail.com')),    (SELECT product_id FROM super_shop_schema.products WHERE name = 'X1000 Bluetooth Headset'),      1,  79.99),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-01 10:20:10.000009' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'alice.martin@mail.com')),    (SELECT product_id FROM super_shop_schema.products WHERE name = '1000 piece puzzle "Mountain"'), 2,  12.99),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-04 09:12:00.000200' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'bob.dupont@mail.com')),      (SELECT product_id FROM super_shop_schema.products WHERE name = 'Comfort+ Yoga Mat'),            1,  19.99),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-08 15:02:20.020000' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'chloe.bernard@mail.com')),   (SELECT product_id FROM super_shop_schema.products WHERE name = 'Stainless steel kettle 1.7L'),  1,  29.99),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-08 15:02:20.020000' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'chloe.bernard@mail.com')),   (SELECT product_id FROM super_shop_schema.products WHERE name = 'FreshEnergy shower gel'),       3,   4.99),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-09 11:45:00.000003' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'david.robert@mail.com')),    (SELECT product_id FROM super_shop_schema.products WHERE name = 'Dumbbells 5kg (pair)'),         1,  24.99),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-10 08:10:00.000000' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'emma.leroy@mail.com')),      (SELECT product_id FROM super_shop_schema.products WHERE name = 'BioSkin Moisturizing Cream'),   2,  15.90),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-18 14:22:00.000000' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'julien.fontaine@mail.com')), (SELECT product_id FROM super_shop_schema.products WHERE name = 'Board game "Galaxy Quest"'),    1,  29.90),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-20 18:00:02.123001' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'katia.garnier@mail.com')),   (SELECT product_id FROM super_shop_schema.products WHERE name = 'Pro RGB Gaming Mouse'),         1,  49.90),
+    ((SELECT order_id FROM super_shop_schema.orders WHERE placed_in = '2024-03-20 18:00:02.123001' and customer_id = (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'katia.garnier@mail.com')),   (SELECT product_id FROM super_shop_schema.products WHERE name = 'FreshEnergy shower gel'),       2,   4.99);
 
 /*
 SELECT order_id 
