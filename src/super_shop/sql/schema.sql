@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS super_shop_schema.customers (
 	created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+/*
 -- --------------------------------------------------------------------------------
 -- TABLE: order_status
 -- Business model:
@@ -70,27 +71,28 @@ CREATE TABLE IF NOT EXISTS super_shop_schema.order_status (
 	order_status_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	order_status_name TEXT UNIQUE CHECK (order_status_name IN ('PENDING', 'PAID', 'SHIPPED', 'CANCELLED'))
 );
-
+*/
 -- --------------------------------------------------------------------------------
 -- TABLE: orders
 -- Business model:
 -- - customer (FK to customers)
 -- - status (FK to orders_status)
 -- - order date/time (required)
+-- - order status (short text, required, allowed values strictly limited to: 'PENDING', 'PAID', 'SHIPPED', 'CANCELLED')
 -- - the same customer can not place multiple orders at the exact same timestamp
 -- --------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS super_shop_schema.orders (
 	order_id  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	placed_in TIMESTAMP NOT NULL,
 	customer_id INT NOT NULL,
-	order_status_id INT NOT NULL,
+	order_status TEXT NOT NULL CHECK (order_status IN ('PENDING', 'PAID', 'SHIPPED', 'CANCELLED')),
 	CONSTRAINT uq_order UNIQUE (placed_in, customer_id), --Prevents the same customer from placing multiple orders at the exact same timestamp
 	CONSTRAINT fk_customer_id FOREIGN KEY(customer_id)
 		REFERENCES super_shop_schema.customers(customer_id)
-		ON DELETE CASCADE,
-	CONSTRAINT fk_order_status_id FOREIGN KEY(order_status_id)
-		REFERENCES super_shop_schema.order_status(order_status_id)
 		ON DELETE CASCADE
+	--CONSTRAINT fk_order_status_id FOREIGN KEY(order_status_id)
+	--	REFERENCES super_shop_schema.order_status(order_status_id)
+	--	ON DELETE CASCADE
 );
 
 -- ----------------------------------------------------------

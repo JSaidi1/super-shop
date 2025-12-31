@@ -50,6 +50,7 @@ VALUES
     ('Julien', 'Fontaine',    'julien.fontaine@mail.com',  '2024-01-23 13:55:20.000000'),
     ('Katia',  'Garnier',     'katia.garnier@mail.com',    '2024-03-15 12:00:00.500004');
 
+/*
 -- ----------------------------------------------------------
 -- DATA: ORDER STATUS
 -- Corresponds to the "order_status" block of the subject
@@ -60,24 +61,24 @@ VALUES
     ('PAID'),
     ('SHIPPED'),
     ('CANCELLED');
-
+*/
 -- ----------------------------------------------------------
 -- DATA: ORDERS
 -- Corresponds to the "Orders" block of the subject
 -- The customer_id is retrieved from the email
 -- ----------------------------------------------------------
-INSERT INTO super_shop_schema.orders(placed_in, customer_id, order_status_id) 
+INSERT INTO super_shop_schema.orders(placed_in, customer_id, order_status) 
 VALUES
-    ('2024-03-01 10:20:10.000009', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'alice.martin@mail.com'),    (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'PAID')),
-    ('2024-03-04 09:12:00.000200', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'bob.dupont@mail.com'),      (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'SHIPPED')),
-    ('2024-03-08 15:02:20.020000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'chloe.bernard@mail.com'),   (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'PAID')),
-    ('2024-03-09 11:45:00.000003', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'david.robert@mail.com'),    (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'CANCELLED')),
-    ('2024-03-10 08:10:00.000000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'emma.leroy@mail.com'),      (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'PAID')),
-    ('2024-03-11 13:50:01.005000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'felix.petit@mail.com'),     (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'PENDING')),
-    ('2024-03-15 19:30:00.000000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'hugo.roussel@mail.com'),    (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'SHIPPED')),
-    ('2024-03-16 10:00:00.060000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'ines.moreau@mail.com'),     (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'PAID')),
-    ('2024-03-18 14:22:00.000000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'julien.fontaine@mail.com'), (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'PAID')),
-    ('2024-03-20 18:00:02.123001', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'katia.garnier@mail.com'),   (SELECT order_status_id FROM super_shop_schema.order_status WHERE order_status_name = 'PENDING'));
+    ('2024-03-01 10:20:10.000009', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'alice.martin@mail.com'),    'PAID'),
+    ('2024-03-04 09:12:00.000200', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'bob.dupont@mail.com'),      'SHIPPED'),
+    ('2024-03-08 15:02:20.020000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'chloe.bernard@mail.com'),   'PAID'),
+    ('2024-03-09 11:45:00.000003', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'david.robert@mail.com'),    'CANCELLED'),
+    ('2024-03-10 08:10:00.000000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'emma.leroy@mail.com'),      'PAID'),
+    ('2024-03-11 13:50:01.005000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'felix.petit@mail.com'),     'PENDING'),
+    ('2024-03-15 19:30:00.000000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'hugo.roussel@mail.com'),    'SHIPPED'),
+    ('2024-03-16 10:00:00.060000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'ines.moreau@mail.com'),     'PAID'),
+    ('2024-03-18 14:22:00.000000', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'julien.fontaine@mail.com'), 'PAID'),
+    ('2024-03-20 18:00:02.123001', (SELECT customer_id FROM super_shop_schema.customers WHERE email = 'katia.garnier@mail.com'),   'PENDING');
 
 -- ----------------------------------------------------------
 -- DATA: ORDER LINES (ORDER_ITEMS)
