@@ -214,3 +214,6 @@ __marimo__/
 
 # tool to help developers in dev env
 **/scripts-dev-env-only
+
+# not useful Looping file
+**lo1
